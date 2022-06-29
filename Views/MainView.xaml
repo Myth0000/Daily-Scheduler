@@ -6,12 +6,39 @@
              xmlns:local="clr-namespace:Daily_Scheduler.Views"
              mc:Ignorable="d" 
              d:DesignHeight="370" d:DesignWidth="600">
-    <Grid Background="Gray">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid Background="#222222" Height="370" Width="600">
 
-        <Rectangle Grid.Row="0" Height="50" Width="600" Fill="Black"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="20 10 0 0">
+            <TextBlock FontSize="30" FontWeight="Bold" Text="Schedules" Foreground="#86DF9A"/>
+
+            <ListBox Width="350" Height="260" Background="#3C3C3C" BorderThickness="0" >
+                <ListBoxItem Content="12:00 PM --- Workout" Foreground="#86DF9A"/>
+            </ListBox>
+        </StackPanel>
+        
+
+        <StackPanel Grid.Column="1" Margin="0 110 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderBrush" Value="#86DF9A"/>
+                    <Setter Property="Background" Value="#3C3C3C"/>
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Width" Value="170"/>
+                    <Setter Property="Margin" Value="0 5 0 0"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBox Text="Activity Name" Margin="0 0 0 0"/>
+            <TextBox Text="Activity Date"/>
+            <TextBox Text="Activity Description" Height="80"/>
+            <Button Width="80" Height="25" Background="#3C3C3C" BorderThickness="0" Margin="0 5 0 0"
+                    Content="Schedule" FontWeight="SemiBold" Foreground="#86DF9A"/>
+        </StackPanel>
+        
+
     </Grid>
 </UserControl>

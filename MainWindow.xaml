@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Daily_Scheduler"
         xmlns:views="clr-namespace:Daily_Scheduler.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="370" Width="600">
+        Title="Daily Scheduler" Height="370" Width="600">
     <Grid>
         <views:MainView/>
     </Grid>
