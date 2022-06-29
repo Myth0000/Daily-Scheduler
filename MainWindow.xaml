@@ -4,10 +4,68 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Daily_Scheduler"
-        xmlns:views="clr-namespace:Daily_Scheduler.Views"
         mc:Ignorable="d"
         Title="Daily Scheduler" Height="370" Width="600">
-    <Grid>
-        <views:MainView/>
+    <Grid Background="#222222" Height="370" Width="600">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Schedule Listing, etc.-->
+        <StackPanel Margin="20 10 0 0">
+            <TextBlock FontSize="30" FontWeight="Bold" Text="Schedules" Foreground="#86DF9A"/>
+
+            <ListBox Width="350" Height="260" Background="#3C3C3C" BorderThickness="0" >
+                <!--<ListBoxItem Content="12:00 PM - - - Workout" Foreground="#86DF9A"/> -->
+            </ListBox>
+        </StackPanel>
+
+        <!-- Input Area -->
+        <StackPanel Grid.Column="1" Margin="0 80 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderBrush" Value="#86DF9A"/>
+                    <Setter Property="Background" Value="#3C3C3C"/>
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Width" Value="170"/>
+                    <Setter Property="Margin" Value="0 5 0 0"/>
+                    <Setter Property="Foreground" Value="#86DF9A"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBox Text="Activity Name" Margin="0 0 0 0"/>
+
+            <!-- Time Picker -->
+            <StackPanel Orientation="Horizontal" Height="30" Width="170" Margin="4 5 0 0">
+                <StackPanel.Resources>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Width" Value="45"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Foreground" Value="#86DF9A"/>
+                        <Setter Property="FontWeight" Value="DemiBold"/>
+                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="Margin" Value="5 0 0 0"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <ComboBox ItemsSource="{Binding Hours}"/>
+                <ComboBox ItemsSource="{Binding Minutes}"/>
+                <ComboBox ItemsSource="{Binding Meridiem}" Width="52"/>
+
+            </StackPanel>
+
+            <TextBox Text="Activity Description" Height="100" MaxLength="150"/>
+            <Button Width="80" Height="25" Background="#3C3C3C" BorderThickness="0" Margin="0 5 0 0"
+                    Content="Schedule" FontWeight="Bold" Foreground="#86DF9A"/>
+        </StackPanel>
+
+
     </Grid>
 </Window>
