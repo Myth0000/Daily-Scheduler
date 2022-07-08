@@ -17,8 +17,22 @@
         <StackPanel Margin="20 10 0 0">
             <TextBlock FontSize="30" FontWeight="Bold" Text="Schedules" Foreground="#86DF9A"/>
 
-            <ListBox Width="350" Height="260" Background="#3C3C3C" BorderThickness="0" >
-                <!--<ListBoxItem Content="12:00 PM - - - Workout" Foreground="#86DF9A"/> -->
+            <ListBox x:Name="Schedules_listbox" Width="350" Height="260" Background="#3C3C3C" BorderThickness="0" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding ActivityDescription}">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#86DF9A"/>
+                                    <Setter Property="FontWeight" Value="DemiBold"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock Text="{Binding ActivityTime}"/>
+                            <TextBlock Text=" --- "/>
+                            <TextBlock Text="{Binding ActivityName}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
 
@@ -39,7 +53,7 @@
                 </Style>
             </StackPanel.Resources>
 
-            <TextBox Text="Activity Name" Margin="0 0 0 0"/>
+            <TextBox x:Name="ActivityName_textbox" Text="Activity Name" Margin="0 0 0 0"/>
 
             <!-- Time Picker -->
             <StackPanel Orientation="Horizontal" Height="30" Width="170" Margin="4 5 0 0">
@@ -48,22 +62,21 @@
                         <Setter Property="Width" Value="45"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="Foreground" Value="#86DF9A"/>
                         <Setter Property="FontWeight" Value="DemiBold"/>
                         <Setter Property="FontSize" Value="15"/>
                         <Setter Property="Margin" Value="5 0 0 0"/>
                     </Style>
                 </StackPanel.Resources>
 
-                <ComboBox ItemsSource="{Binding Hours}"/>
-                <ComboBox ItemsSource="{Binding Minutes}"/>
-                <ComboBox ItemsSource="{Binding Meridiem}" Width="52"/>
+                <ComboBox x:Name="Hours_combobox" ItemsSource="{Binding Hours}"/>
+                <ComboBox x:Name="Minutes_combobox" ItemsSource="{Binding Minutes}"/>
+                <ComboBox x:Name="Meridiem_combobox" ItemsSource="{Binding Meridiem}" Width="52"/>
 
             </StackPanel>
 
-            <TextBox Text="Activity Description" Height="100" MaxLength="150"/>
+            <TextBox x:Name="ActivityDescription_textbox" Text="Activity Description" Height="100" MaxLength="150"/>
             <Button Width="80" Height="25" Background="#3C3C3C" BorderThickness="0" Margin="0 5 0 0"
-                    Content="Schedule" FontWeight="Bold" Foreground="#86DF9A"/>
+                    Content="Schedule" FontWeight="Bold" Foreground="#86DF9A" Click="ScheduleButton_Click"/>
         </StackPanel>
 
 
