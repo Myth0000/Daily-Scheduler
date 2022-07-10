@@ -31,17 +31,11 @@ namespace Daily_Scheduler
         }
         
 // Bindings
-        
-        private ObservableCollection<Schedule> schedules = new ObservableCollection<Schedule>();
-        public ObservableCollection<Schedule> Schedules
-        {
-            get { return schedules; }
-        }
-        public string[] Hours
+        public static string[] Hours
         {
             get { return new string[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }; }
         }
-        public string[] Minutes
+        public static string[] Minutes
         {
             get { return new string[] {
             "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
@@ -52,7 +46,7 @@ namespace Daily_Scheduler
             "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" };
             }
         }
-        public string[] Meridiem
+        public static string[] Meridiem
         {
             get { return new string[] { "AM", "PM" }; }
         }
@@ -62,29 +56,50 @@ namespace Daily_Scheduler
 
         private void ScheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            string ActivityName = ActivityName_textbox.Text;
-            string ActivityDescription = ActivityDescription_textbox.Text;
-            string ActivityTime = $"{Hours_combobox.Text} {Minutes_combobox.Text} {Meridiem_combobox.Text}";
+            string ActivityName = ActivityName_textbox.Text.Trim();
+            string ActivityDescription = ActivityDescription_textbox.Text.Trim();
             string FormatedActivityTime = $"{Hours_combobox.Text}:{Minutes_combobox.Text} {Meridiem_combobox.Text}";
-            Schedule NewSchedule = new()
+
+            if (IsNotNullOrWhiteSpace(ActivityName) && 
+                IsNotNullOrWhiteSpace(ActivityDescription) && 
+                IsNotNullOrWhiteSpace(FormatedActivityTime.Replace(":", " "))
+                )
             {
-                ActivityName = ActivityName,
-                ActivityDescription = ActivityDescription,
-                ActivityTime = ActivityTime
-            };
-            
-            List<Schedule> DeserializedSchedulesData = JsonSerializer.Deserialize<List<Schedule>>(File.ReadAllText(SchedulesJsonFilePath));
-            DeserializedSchedulesData.Add(NewSchedule);
+                Schedule NewSchedule = new()
+                {
+                    ActivityName = ActivityName,
+                    ActivityDescription = ActivityDescription,
+                    ActivityTime = FormatedActivityTime
+                };
+
+                List<Schedule> DeserializedSchedulesData = JsonSerializer.Deserialize<List<Schedule>>(File.ReadAllText(SchedulesJsonFilePath));
+                DeserializedSchedulesData.Add(NewSchedule);
+                UpdateSchedulesDataAndListbox(DeserializedSchedulesData);
+            }
+        }
+
+        bool IsNotNullOrWhiteSpace(string _string) { return !string.IsNullOrWhiteSpace(_string); }
+
+        void UpdateSchedulesDataAndListbox(List<Schedule> DeserializedSchedulesData)
+        {
             string SerializedScheduleData = JsonSerializer.Serialize(DeserializedSchedulesData, new JsonSerializerOptions() { WriteIndented = true });
             File.WriteAllText(SchedulesJsonFilePath, SerializedScheduleData);
             Schedules_listbox.ItemsSource = DeserializedSchedulesData;
-
         }
 
         private void LoadAllSchedules()
         {
             List<Schedule> DeserializedSchedulesData = JsonSerializer.Deserialize<List<Schedule>>(File.ReadAllText(SchedulesJsonFilePath));
             Schedules_listbox.ItemsSource = DeserializedSchedulesData;
+        }
+
+        private void DeleteSchedule_contextmenu(object sender, RoutedEventArgs e)
+        {
+            int ScheduleIndex = Schedules_listbox.SelectedIndex;
+
+            List<Schedule> DeserializedSchedulesData = JsonSerializer.Deserialize<List<Schedule>>(File.ReadAllText(SchedulesJsonFilePath));
+            DeserializedSchedulesData.RemoveAt(ScheduleIndex);
+            UpdateSchedulesDataAndListbox(DeserializedSchedulesData);
         }
     }
 }
